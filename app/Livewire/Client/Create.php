@@ -7,11 +7,13 @@ use App\Models\Client;
 class Create extends Component
 {
     public $name;
+    public $email;
 
     public function save()
     {
         $validatedData = $this->validate([
             'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:clients,email',
         ]);
 
         Client::create($validatedData);

@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Process extends Model
+class ClientProcess extends Model
 {
     use HasFactory;
-    protected $fillable = ['number_cnj', 'active'];
+
+    // protected $table = 'process_client'; // se quiser sobrepor o nome padrão
+    protected $fillable = ['client_id', 'process_id'];
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -24,10 +26,12 @@ class Process extends Model
             }
         });
     }
-
-    public function clients()
+    public function client()
     {
-        return $this->belongsToMany(Client::class, 'client_process', 'process_id', 'client_id');
+        return $this->belongsTo(Client::class, 'client_id');
     }
-    
+    public function process()
+    {
+        return $this->belongsTo(Process::class, 'process_id');
+    }
 }

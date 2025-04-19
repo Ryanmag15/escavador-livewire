@@ -10,10 +10,20 @@ class Index extends Component
 {
     use WithPagination;
 
+    public $search = '';
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         return view('livewire.client.index', [
-            'clients' => Client::paginate(10),
+            'clients' => Client::where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('email', 'like', '%' . $this->search . '%')
+                ->orderBy('name')
+                ->paginate(10),
         ]);
     }
 }
